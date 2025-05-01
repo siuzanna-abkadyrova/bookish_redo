@@ -2,7 +2,6 @@ from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from bookish.controllers import register_controllers
 
 
 db = SQLAlchemy()
@@ -17,7 +16,8 @@ def create_app():
     db.init_app(app)
     Migrate(app, db)
 
-    register_controllers(app)
+    from bookish.controllers.bookish import bookish
+    app.register_blueprint(bookish)
 
     return app
 

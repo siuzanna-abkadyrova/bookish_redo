@@ -1,16 +1,19 @@
 from flask import request
-# from bookish.models.example import Example
-# from bookish.app import db
+from bookish.models.example import Example
+from bookish.app import db
+from flask import render_template, session, Blueprint
 
 
-def bookish_routes(app):
-    @app.route('/healthcheck')
-    def health_check():
-        return {"status": "OK"}
+bookish = Blueprint('bookish', __name__)
 
 
-    @app.route('/example', methods=['POST', 'GET'])
-    def handle_example():
+@bookish.route('/healthcheck')
+def health_check():
+    return {"status": "OK"}
+
+
+@bookish.route('/example', methods=['POST', 'GET'])
+def handle_example():
         if request.method == 'POST':
             if request.is_json:
                 data = request.get_json()
