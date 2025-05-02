@@ -11,11 +11,14 @@ class Copy(db.Model):
         self.book_id = book_id
 
     def __repr__(self):
-        return f'<Copy id={self.id}, book_id={self.book_id}>'
+        return f'<Copy id={self.id}, book_id={self.book_id} member_id={self.member_id}>'
 
     def serialize(self):
+        current_borrow = next(
+            (b for b in sorted(self.borrows, key=lambda b: b.borrow_date, reverse=True) if b.return_date is None), None)
         return {
             'id': self.id,
             'book_id': self.book_id,
-            'book': self.book.serialize()
+            'book': self.book.serialize(),
+            'current_borrower': current_borrow.member.serialize() if current_borrow else None
         }

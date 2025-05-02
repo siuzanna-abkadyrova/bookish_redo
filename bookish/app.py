@@ -22,7 +22,13 @@ def create_app():
     app.register_blueprint(bookController)
 
     from bookish.controllers.CopyController import copyController
-    app.register_blueprint(copyController)
+    app.register_blueprint(copyController)#
+
+    from bookish.controllers.MemberController import memberController
+    app.register_blueprint(memberController)
+
+    from bookish.controllers.BorrowController import borrowController
+    app.register_blueprint(borrowController)
 
     return app
 
