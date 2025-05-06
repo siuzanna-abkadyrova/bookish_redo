@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 
 from bookish.models.book import Book
 from bookish.app import db
@@ -28,3 +28,16 @@ def handle_book():
                 'author': book.author
             } for book in books]
         return {"books": results}
+
+@bookController.route('/book/<int:book_id>', methods=['GET'])
+def get_book_by_id(book_id):
+    book = Book.query.get(book_id)
+    if not book:
+        return jsonify({"error": "Book not found"}), 404
+
+    return jsonify({
+        'id': book.id,
+        'title': book.title,
+        'publicationyear': book.publicationyear,
+        'author': book.author
+    })
